@@ -1,12 +1,12 @@
 <template>
-    <main>
-        TicketSearch
-    </main>
+    <div>
+
+    </div>
 </template>
 
 <script>
 export default {
-    name: "TicketSearch",
+    name: "Contacts",
     data () {
         
 

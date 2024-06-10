@@ -1,12 +1,12 @@
 <template>
     <main>
-        TicketSearch
+        ciao
     </main>
 </template>
 
 <script>
 export default {
-    name: "TicketSearch",
+    name: "HomePage",
     data () {
         
 

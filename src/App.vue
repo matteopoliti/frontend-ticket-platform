@@ -2,10 +2,12 @@
 import axios from "axios";
 import { store } from "./store";
 import AppHeader from "./components/AppHeader.vue";
+import TicketSearch from "./pages/TicketSearch.vue";
 
 export default {
     components: {
         AppHeader,
+        TicketSearch
     },
     data() {
         return {
@@ -19,6 +21,7 @@ export default {
 
 <template>
     <AppHeader />
+    <router-view></router-view>
 </template>
 
 <style lang="scss">

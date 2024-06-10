@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <main class="back">
 
-    </div>
+    </main>
 </template>
 
 <script>

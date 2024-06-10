@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <main class="back">
         TicketSearch
     </main>
 </template>

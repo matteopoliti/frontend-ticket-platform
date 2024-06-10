@@ -1,14 +1,13 @@
 <template>
-    <main>
-        ciao
-    </main>
+<main class="back">
+    <div></div>
+</main>
 </template>
 
 <script>
 export default {
     name: "HomePage",
-    data () {
-        
+    data() {
 
         return {}
     }

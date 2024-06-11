@@ -1,18 +1,16 @@
 <template>
 <main class="back">
-
-    <section class="py-5 text-center container">
+    <section class="text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-7 col-md-8 mx-auto">
                 <h1>Trova le risposte di cui hai bisogno, Subito!</h1>
                 <h4 class="fw-light">Alla ricerca di soluzioni? Sei nel posto giusto.</h4>
                 <p class="lead text-body-secondary">Il nostro portale di ricerca di ticket di supporto ti consente di accedere rapidamente alle risposte di cui hai bisogno. Esplora i ticket risolti e trova soluzioni già pronte ai tuoi problemi.</p>
-                <div class="d-flex justify-content-center">
-                    <a href="#" class="btn btn-outline-dark my-2 ms-4">Inizia ora!</a>
-                    <router-link :to="{ name: 'ticket' }" class="btn btn-outline-dark my-2 ms-4">
-                        Cerca ticket
-                    </router-link>
-                </div>
+
+                <router-link :to="{ name: 'ticket' }" class="ticketSearch">
+                    Cerca ticket
+                </router-link>
+
             </div>
         </div>
     </section>
@@ -110,5 +108,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+section{
+    padding-top: 120px;
+    .ticketSearch {
+        color: #000;
+        position: relative;
+        text-decoration: none;
+        font-size: 30px;
+    
+        box-shadow: inset 0 0 0 0 #5A4083;
+        color: #5A4083;
+        padding: 0 .25rem;
+        margin: 0 -.25rem;
+        transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+    
+        &:hover {
+            color: #fff;
+            box-shadow: inset 200px 0 0 0 #5A4083;
+            ;
+        }
+    }
+}
+    
 </style>

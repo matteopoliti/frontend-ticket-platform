@@ -4,8 +4,8 @@
         <h1 class="mb-4 text-center">Cerca tra i nostri ticket e trova la soluzione perfetta per te.</h1>
         <form @submit.prevent="filteredTickets(1)">
             <div class="search-box">
-                <button class="btn-search"><i class="fas fa-search"></i></button>
-                <input type="text" class="input-search" placeholder="Scrivi per Cercare...">
+                <button class="btn-search" type="submit"><i class="fas fa-search"></i></button>
+                <input type="text" class="input-search" placeholder="Scrivi per Cercare..." v-model="searchInput">
             </div>
             <div class="row">
 
@@ -29,7 +29,7 @@
                     <input type="date" class="form-control" id="date" v-model="dateInput">
                 </div>
             </div>
-            <button type="submit" class="btn color_1 my-3">Invia</button>
+            <button type="submit" class="btn color_1 my-3">Cerca</button>
         </form>
     </section>
 
@@ -107,7 +107,8 @@ export default {
             arrayOperators: [],
             categoryInput: "",
             operatorInput: "",
-            dateInput: ""
+            dateInput: "",
+            searchInput: ""
         }
     },
     methods: {
@@ -129,7 +130,8 @@ export default {
                 page: postApiPage,
                 category: this.categoryInput,
                 operator: this.operatorInput,
-                date: this.dateInput
+                date: this.dateInput,
+                search: this.searchInput,
             };
             axios
                 .get(`${store.apiBaseUrl}/api/tickets/search`, {

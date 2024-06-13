@@ -13,18 +13,15 @@
                     <label for="date" class="form-label">Seleziona una categoria</label>
                     <select class="form-select" aria-label="Default select example">
                         <option selected>Categorie</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        
+                        <option  v-for="(item, index) in arrayCategories" :key="item.id" :value="item.name">{{ item.name }}</option>
                     </select>
                 </div>
                 <div class="my-3 col-12 col-md-4">
                     <label for="date" class="form-label">Seleziona un operatore</label>
                     <select class="form-select" aria-label="Default select example">
                         <option selected>Operatori</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option  v-for="(item, index) in arrayOperators" :key="item.id" :value="item.name">{{ item.name }}</option>
                     </select>
                 </div>
                 <div class="my-3 col-12 col-md-4">
@@ -103,6 +100,8 @@ export default {
             arrayTickets: [],
             currentPage: "",
             lastPage: "",
+            arrayCategories: [],
+            arrayOperators: [],
         }
     },
     methods: {
@@ -117,6 +116,8 @@ export default {
                     this.arrayTickets = result.data.result.data;
                     this.currentPage = result.data.result.current_page;
                     this.lastPage = result.data.result.last_page;
+                    this.arrayCategories = result.data.categories;
+                    this.arrayOperators = result.data.operators;
                     console.log(this.arrayTickets)
                 })
         }

@@ -2,7 +2,7 @@
 <main class="back">
     <section class="container border-bottom">
         <h1 class="mb-4 text-center">Cerca tra i nostri ticket e trova la soluzione perfetta per te.</h1>
-        <form>
+        <form @submit.prevent="filteredTickets(1)">
             <div class="search-box">
                 <button class="btn-search"><i class="fas fa-search"></i></button>
                 <input type="text" class="input-search" placeholder="Scrivi per Cercare...">
@@ -10,32 +10,39 @@
             <div class="row">
 
                 <div class="my-3 col-12 col-md-4">
-                    <label for="date" class="form-label">Seleziona una categoria</label>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Categorie</option>
-                        
-                        <option  v-for="(item, index) in arrayCategories" :key="item.id" :value="item.name">{{ item.name }}</option>
+                    <label for="categories" class="form-label">Seleziona una categoria</label>
+                    <select class="form-select" name="categories" v-model="categoryInput">
+                        <option disabled value="">Categorie</option>
+
+                        <option v-for="(item, index) in arrayCategories" :key="item.id" :value="item.name">{{ item.name }}</option>
                     </select>
                 </div>
                 <div class="my-3 col-12 col-md-4">
-                    <label for="date" class="form-label">Seleziona un operatore</label>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Operatori</option>
-                        <option  v-for="(item, index) in arrayOperators" :key="item.id" :value="item.name">{{ item.name }}</option>
+                    <label for="operators" class="form-label">Seleziona un operatore</label>
+                    <select class="form-select" name="operators" v-model="operatorInput">
+                        <option disabled value="">Operatori</option>
+                        <option v-for="(item, index) in arrayOperators" :key="item.id" :value="item.name">{{ item.name }}</option>
                     </select>
                 </div>
                 <div class="my-3 col-12 col-md-4">
                     <label for="date" class="form-label">Seleziona una data</label>
-                    <input type="date" class="form-control" id="date">
+                    <input type="date" class="form-control" id="date" v-model="dateInput">
                 </div>
             </div>
             <button type="submit" class="btn color_1 my-3">Invia</button>
         </form>
     </section>
 
+    <!-- Risultati -->
     <div class="album py-5">
         <div class="container">
 
+            <div v-if="arrayTickets.length === 0">
+                <div class="d-flex flex-column align-items-center">
+                    <h3 class="text-center">Non ci sono risultati!</h3>
+                    <img src="../assets/img/no-result.png" alt="No-result" class="img-fluid">
+                </div>
+            </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div class="col" v-for="(item, index) in arrayTickets" :key="item.id">
                     <div class="card shadow-sm">
@@ -62,23 +69,19 @@
             </div>
         </div>
     </div>
-    <nav aria-label="Page navigation example" class="mb-2 d-flex justify-content-center container">
+    <nav aria-label="Page navigation example" class="mb-2 d-flex justify-content-center container" :class="arrayTickets.length === 0 ? 'd-none' : ''">
         <ul class="pagination pagination-sm flex-wrap text-dark">
             <!-- Button Previous -->
             <li class="page-item d-none d-sm-block">
                 <button class="page-link text-secondary-emphasis" :class="{ disabled: currentPage === 1 }" @click="
-                getTickets(currentPage - 1);
-
-              ">
+                filteredTickets(currentPage - 1); ">
                     Precedente
                 </button>
             </li>
             <!-- Button next -->
             <li class="page-item d-none d-sm-block">
                 <button class="page-link text-secondary-emphasis" :class="{ disabled: currentPage === lastPage }" @click="
-                getTickets(currentPage + 1);
-
-              ">
+                filteredTickets(currentPage + 1);">
                     Successivo
                 </button>
             </li>
@@ -102,6 +105,9 @@ export default {
             lastPage: "",
             arrayCategories: [],
             arrayOperators: [],
+            categoryInput: "",
+            operatorInput: "",
+            dateInput: ""
         }
     },
     methods: {
@@ -113,13 +119,32 @@ export default {
                     },
                 })
                 .then(result => {
-                    this.arrayTickets = result.data.result.data;
-                    this.currentPage = result.data.result.current_page;
-                    this.lastPage = result.data.result.last_page;
                     this.arrayCategories = result.data.categories;
                     this.arrayOperators = result.data.operators;
-                    console.log(this.arrayTickets)
                 })
+        },
+
+        filteredTickets(postApiPage) {
+            const params = {
+                page: postApiPage,
+                category: this.categoryInput,
+                operator: this.operatorInput,
+                date: this.dateInput
+            };
+            axios
+                .get(`${store.apiBaseUrl}/api/tickets/search`, {
+                    params
+                })
+                .then((response) => {
+                    console.log(response.data);
+                    this.arrayTickets = response.data.result.data;
+                    this.currentPage = response.data.result.current_page;
+                    this.lastPage = response.data.result.last_page;
+
+                })
+                .catch((error) => {
+                    console.error("Errore durante la richiesta API:", error);
+                });
         }
     },
     mounted() {
